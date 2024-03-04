@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
+import Post from './components/Post'
+import Rightbar from './components/Rightbar'
+import { data,data2 } from './Data'
 
-function App() {
+const App = () => {
+  const [bgColor, setbgColor] = useState("#232D3f")
+  const [color, setColor] = useState("white")
+  const [toggle, settoggle] = useState(true)
+
+  const toggleButton = () =>{
+    settoggle(!toggle)
+    if(toggle){
+      setbgColor("rgb(255,255,255)");
+      setColor("black")
+      document.querySelector("body").style.backgroundColor = "#cbc5c5"
+    }else{
+      setbgColor("#232D3f");
+      setColor("white")
+      document.querySelector("body").style.backgroundColor = "black";
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    <Navbar 
+    bgColor={bgColor} color={color} toggleButton={toggleButton} toggle={toggle} />  
+    <div className="container">
+
+        <div className="side_bar">
+          <Sidebar
+          bgColor={bgColor} color={color} />
+        </div>  
+
+        <div className="post_section">
+            {data.map((d) => (
+              <Post key={d.id} data={d}
+              bgColor={bgColor} color={color} />
+            ))} 
+        </div>
+
+        <div className="right_bar">
+            {data2.map((d) => (
+                  <Rightbar key={d.id} data={d} 
+                    bgColor={bgColor} color={color}
+                  />
+                ))} 
+        </div>
+
     </div>
-  );
+    
+    </>
+  )
 }
 
-export default App;
+export default App
